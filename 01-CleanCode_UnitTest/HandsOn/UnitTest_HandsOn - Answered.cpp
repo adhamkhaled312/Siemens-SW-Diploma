@@ -31,32 +31,32 @@ int main() {
 
     //single integer
     vector<int> identical {42};
-    answer = closest_to_zero(identical);
+    answer = get_closest_to_zero(identical);
     assert (answer == 42);
     
     //identical integers
     vector<int> identical2 {42, 42, 42, 42};
-    answer = closest_to_zero(identical2);
+    answer = get_closest_to_zero(identical2);
     assert (answer == 42);
     
     //occurrence of zero
     vector<int> identical3 {42, -273 , 0, 23};
-    answer = closest_to_zero(identical3);
+    answer = get_closest_to_zero(identical3);
     assert (answer == 0);
 
     //tie between positive and negative
     vector<int> identical5 {-20000, 20000};
-    answer = closest_to_zero(identical5);
+    answer = get_closest_to_zero(identical5);
     assert (answer == 20000);
 
     //min positive number is closest to zero
     vector<int> identical6 {42, 1, 23, 97, 7};
-    answer = closest_to_zero(identical6);
+    answer = get_closest_to_zero(identical6);
     assert (answer == 1);
     
     //empty vector
     vector<int> identical7 {};
-    answer = closest_to_zero(identical7);
+    answer = get_closest_to_zero(identical7);
     assert (answer == 0);
     
 }

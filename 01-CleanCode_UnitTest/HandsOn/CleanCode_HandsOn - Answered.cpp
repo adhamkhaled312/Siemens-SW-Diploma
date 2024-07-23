@@ -1,4 +1,5 @@
 #include <iostream>  
+using namespace std; 
 // Use meaningful function names  
 int divideFirstBySecond(int firstNumber, int secondNumber) {
     int result;
@@ -17,7 +18,7 @@ int divideFirstBySecond(int firstNumber, int secondNumber) {
   
 // Use descriptive function names and comments to explain functionality  
 void printResult(int firstNumber, int secondNumber, int result) {  
-    std::cout << "The division of " << firstNumber << " over " << secondNumber << " is " << result << endl;  
+    cout << "The division of " << firstNumber << " over " << secondNumber << " is " << result << endl;  
 }  
   
 int main() {  
