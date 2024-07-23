@@ -83,7 +83,7 @@ void testCalculateSum()
     calculateSum(array, arraySize + 2, 3, arraySize);
     assert(lastError == "The start index is greater than size of the array!");
 
-    // test endIndex greater than endIndex
+    // test endIndex greater than size of array
     calculateSum(array, 2, arraySize + 5, arraySize);
     assert(lastError == "The end index is greater than size of the array!");
 }
