@@ -1,0 +1,65 @@
+@startuml
+
+actor User
+
+entity UserInteractionManager
+entity UserService
+entity Authenticator
+entity DBManager
+
+database db
+
+User -> UserInteractionManager: "Registeration Request"
+UserInteractionManager -> UserService: "Registeration Request"
+UserService -> Authenticator: "Check Database"
+Authenticator -> DBManager: "Check Database"
+DBManager -> db: "Search for User"
+
+alt "User Is Not Found"
+    db --> DBManager: "User is not found"
+    DBManager -> db: "Create User"
+    db --> DBManager: "Successfully created"
+    DBManager --> UserService: "Successfully Registered"
+    UserService --> UserInteractionManager: "Successfully Registered"
+    UserInteractionManager --> User: "Redirecting to the main page"
+
+else "User is Found"
+    db --> DBManager: "User is found"
+    DBManager --> UserService: "Username already in use"
+    UserService --> UserInteractionManager: "Username already in use"
+    UserInteractionManager --> User: "Username already in use. Do you want to login?"
+end
+
+User -> UserInteractionManager: "Login request"
+UserInteractionManager -> UserService: "Send Login Data"
+UserService -> Authenticator: "Please Authenticate User"
+Authenticator -> DBManager: "Query for user"
+DBManager -> db: "Is User in database?"
+
+alt "User Is Found"
+    db --> DBManager: "User is found"
+    DBManager -> db: "Ask for Credentials"
+    db --> DBManager: "Return User Credentials"
+    DBManager --> Authenticator: "Return User credentials"
+    Authenticator -> Authenticator: "Compare User credentials"
+
+    alt "Good Credentials"
+        Authenticator --> UserService: "Good Credentials"
+        UserService --> UserInteractionManager: "Good Credentials"
+        UserInteractionManager --> User: "Redirected to the main page"
+    else "Bad Credentials"
+        Authenticator --> UserService: "Bad Credentials"
+        UserService --> UserInteractionManager: "Bad Credentials"
+        UserInteractionManager --> User: "Bad Credentials! Try again."
+    end
+else "User is not found"
+    db --> DBManager: "User is not found"
+    DBManager --> Authenticator: "Bad Credentials"
+    Authenticator --> UserService: "Bad Credentials"
+    UserService --> UserInteractionManager: "Bad Credentials"
+    UserInteractionManager --> User: "Bad Credentials! Try again."
+end
+
+
+
+@enduml

@@ -1,0 +1,36 @@
+@startuml
+
+title "Book Appointment"
+
+actor Patient
+
+entity UserInteractionManager
+entity PatientService
+entity DBManager
+
+database db
+
+Patient -> UserInteractionManager: Request "Book Appointment"
+UserInteractionManager --> Patient: Enter Appointment Details
+
+Patient -> UserInteractionManager: Send Details
+UserInteractionManager -> PatientService: Book Appointment
+
+PatientService -> DBManager: Book Appointment
+
+DBManager -> db: Process Request
+db --> DBManager: Response to DB request
+
+DBManager -> PatientService: Response
+PatientService -> UserInteractionManager: Success or Failure
+
+alt "Success"
+UserInteractionManager -> Patient: Appointment has been successfully booked.
+
+else "Failure"
+UserInteractionManager -> Patient: Appointment is not available
+
+end
+
+
+@enduml

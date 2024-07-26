@@ -1,0 +1,51 @@
+@startuml
+left to right direction
+
+
+actor "Patient" as p
+actor "Authenticator" as s
+actor "Doctor" as d
+actor "Admin" as a
+
+
+rectangle "Healthcare Center" {
+    usecase "Register" as register
+    usecase "Login" as login
+    usecase "Authenticate" as auth
+
+    usecase "Book Appointment" as book
+    usecase "View Medical History" as viewHistory
+    usecase "Manage Profile" as manageProfile
+    usecase "Manage Schedule" as manageSchedule
+    usecase "View Schedule" as viewSchedule
+
+    usecase "View Patient Detail" as viewPatientDetail
+    usecase "Update Medical Record" as updatePatientRecord
+    usecase "Manage Doctor Account" as manageDoctorAccount
+    usecase "Manage Patient Account" as managePatientAccount
+
+    login .> auth: "includes"
+    manageSchedule .> viewSchedule: "includes"
+}
+
+
+p --> book
+p --> viewHistory
+p --> manageProfile
+p --> register
+p --> login
+
+d --> register
+d --> login
+d --> manageSchedule
+d --> viewPatientDetail
+d --> updatePatientRecord
+
+a --> manageDoctorAccount
+a --> managePatientAccount
+
+s --> auth
+
+
+
+@enduml
