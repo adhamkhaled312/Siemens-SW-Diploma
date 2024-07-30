@@ -1,4 +1,4 @@
-#include "print.hpp"
+#include "./lib/print.hpp"
 
 int main(int argc, char* argv[]) {
     printSum(1, 2);
