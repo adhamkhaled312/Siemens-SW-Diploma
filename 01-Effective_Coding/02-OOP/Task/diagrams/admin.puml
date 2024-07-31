@@ -1,0 +1,30 @@
+@startuml
+title "View & Update Patient Account"
+
+actor Admin
+
+entity UserInteractionManager
+entity AdminService
+entity DBManager
+
+database db
+
+Admin -> UserInteractionManager: View Patient Account
+UserInteractionManager -> AdminService: View Patient Account
+AdminService -> DBManager: Query for Patient Account
+DBManager -> db: Execute the query
+db --> DBManager: Result of the query
+DBManager --> AdminService: Return the result
+AdminService --> UserInteractionManager: Return Profile Data
+UserInteractionManager --> Admin: View Patient Account
+
+Admin -> UserInteractionManager: Modify Patient Account
+UserInteractionManager -> AdminService: Request Modifying Patient Account
+AdminService -> DBManager: Query for Patient Account
+DBManager -> db: Execute the query
+db --> DBManager: Result of the query
+DBManager --> AdminService: Return the result
+AdminService --> UserInteractionManager: Return Request Status
+UserInteractionManager --> Admin: View Request Status
+
+@enduml

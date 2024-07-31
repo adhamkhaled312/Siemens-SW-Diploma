@@ -1,0 +1,250 @@
+@startuml
+
+abstract class User {
+  -id: int
+  -email: string
+  -password: string
+  -profile: Profile
+
+  +User(id: int, email: string, password: string, profile: Profile)
+  +getID(): int
+  +getEmail(): string
+  +getProfile(): Profile
+  +setProfile(newprofile: Profile): void
+  +getPassword(): string
+  +setEmail(email: string): void
+  +setPassword(password: string): void
+}
+
+class Doctor {
+  -schedule: Schedule
+
+  +Doctor(id: int, email: string, password: string, profile: Profile, schedule: Schedule)
+  +getSchedule(): Schedule
+  +setSchedule(schedule: Schedule): void
+
+  +doctorGetID(): int
+  +doctorGetEmail(): string
+  +doctorGetProfile(): Profile
+  +doctorSetProfile(newProfile: Profile): void
+}
+
+class Patient {
+  -history: MedicalHistory
+
+  +Patient(id: int, email: string, password: string, profile: Profile, history: MedicalHistory)
+  +getHistory(): MedicalHistory
+
+  +patientGetID(): int
+  +patientGetEmail(): string
+  +patientGetProfile(): Profile
+  +patientSetProfile(newProfile: Profile): void
+}
+
+class Admin {
+  +Admin(id: int, email: string, password: string, profile: Profile)
+  +adminGetID(): int
+  +adminGetEmail(): string
+  +adminGetProfile(): Profile
+  +adminSetProfile(newProfile: Profile): void
+}
+
+class DoctorService {
+  -doctor: Doctor
+  -dbManager: DBManager
+
+  +DoctorService(doctor: Doctor, dbManager: DBManager)
+  +viewPatient(patientId: int): std::optional<Patient>
+  +getSchedule(): Schedule
+  +viewSchedule(): void
+  +updateSchedule(schedule: Schedule): bool
+  +updateMedicalRecord(record: MedicalRecord): bool
+}
+
+class UserService {
+  -authenticator: Authenticator
+
+  +UserService(authenticator: Authenticator)
+  +login(user: User): string
+  +reg(user: User, userType: int): string
+}
+
+class PatientService {
+  -patient: Patient
+  -dbManager: DBManager
+
+  +PatientService(patient: Patient, dbManager: DBManager)
+  +viewMedicalHistory(): void
+  +getMedicalHistory(): MedicalHistory
+  +bookAppointment(doctorId: int, appointment: Appointment): bool
+}
+
+class AdminService {
+  -admin: Admin
+  -dbManager: DBManager
+
+  +AdminService(admin: Admin, dbManager: DBManager)
+  +addDoctor(doctor: Doctor): void
+  +removeDoctor(doctor_id: int): bool
+  +viewDoctor(doctor_id: int): void
+  +getDoctor(doctor_id: int): Doctor
+  +removePatient(patient_id: int): bool
+  +viewPatient(patient_id: int): void
+  +getPatient(patient_id: int): Patient
+}
+
+class Schedule {
+  -schedule: list<Appointment>
+
+  +Schedule(schedule: list<Appointment>)
+  +getAppointment(): list<Appointment>
+  +addAppointment(appointment: Appointment): void
+}
+
+class Appointment {
+  -id: int
+  -patient_id: optional<int>
+  -doctor_id: optional<int>
+  -date: tm
+
+  +Appointment(id: int, patient: optional<int>, doctor: optional<int>, date: tm)
+  +getId(): int
+  +getDate(): string
+  +setDate(new_date: tm): void
+}
+
+abstract class Profile {
+  -name: string
+
+  +viewProfile(): string
+}
+
+class AdminProfile {
+  +AdminProfile(name: string)
+  +adminGetName(): string
+  +adminSetName(newName: string): void
+}
+
+class PatientProfile {
+  +PatientProfile(name: string)
+  +patientGetName(): string
+  +patientSetName(newName: string): void
+}
+
+class DoctorProfile {
+  +DoctorProfile(name: string)
+  +doctorGetName(): string
+  +doctorSetName(newName: string): void
+}
+
+class MedicalHistory {
+  -medical_history: list<MedicalRecord>
+
+  +MedicalHistory(medical_records: list<MedicalRecord>)
+  +getMedicalHistory(): list<MedicalRecord>
+  +addMedicalRecord(record: MedicalRecord): void
+}
+
+class MedicalRecord {
+  -id: int
+  -date: tm
+  -description: string
+
+  +MedicalRecord(id: int, date: tm, description: string)
+  +getId(): int
+  +getDescription(): string
+  +getDate(): string
+}
+
+class Authenticator {
+  -db_manager: DBManager
+  -checkPassword(user: User, password: string): bool
+
+  +Authenticator(db_manager: DBManager)
+  +queryForDoctor(name: string): std::optional<Doctor>
+  +queryForPatient(name: string): std::optional<Patient>
+  +queryForAdmin(name: string): std::optional<Admin>
+  +addUser(user: User, userType: int): void
+  +authenticate(user: User): bool
+}
+
+class UserInteractionManager {
+  -user: User
+  -userService: UserService
+
+  +setUserService(userService: UserService): void
+  +viewHomePage(): void
+  +viewLoginPage(): void
+  +viewRegisterPage(): void
+  +viewDoctorOptions(): void
+  +viewPatientOptions(): void
+  +viewAdminOptions(): void
+
+  -getUserDetails(): void
+}
+
+class DBManager {
+  -db: DB
+
+  +DBManager(db: DB)
+  +addDoctor(doctor: Doctor): void
+  +removeDoctor(id: int): bool
+  +getDoctor(id: int): std::optional<Doctor>
+  +addPatient(patient: Patient): void
+  +removePatient(id: int): bool
+  +getPatient(id: int): std::optional<Patient>
+  +addAdmin(admin: Admin): void
+  +removeAdmin(id: int): bool
+  +getAdmin(id: int): std::optional<Admin>
+  +getAllDoctors(): list<Doctor>
+  +getAllPatients(): list<Patient>
+  +getAllAdmins(): list<Admin>
+  +updateDoctorSchedule(id: int, schedule: Schedule): bool
+  +getMedicalRecord(id: int): std::optional<MedicalRecord>
+  +updateMedicalRecord(id: int, record: MedicalRecord): bool
+}
+
+class DB {
+  -doctors: list<Doctor>
+  -patients: list<Patient>
+  -admins: list<Admin>
+}
+
+User <|-- Doctor
+User <|-- Patient
+User <|-- Admin
+
+Profile <|-- DoctorProfile
+Profile <|-- PatientProfile
+Profile <|-- AdminProfile
+
+DoctorService -- Doctor: uses
+AdminService -- Admin: uses
+PatientService -- Patient: uses
+
+Doctor "1" *-- "1" Schedule
+Patient "1" *-- "1" MedicalHistory
+
+MedicalHistory "1" o-- "0..*" MedicalRecord
+
+Schedule "1" o-- "0..*" Appointment
+
+
+
+UserInteractionManager -- AdminService: uses
+UserInteractionManager -- PatientService: uses
+UserInteractionManager -- DoctorService: uses
+
+DBManager -- DB: uses
+
+User "1" *-- "1" Profile
+
+UserService -- Authenticator: uses
+User -- UserService: uses
+
+PatientService -- DBManager: uses
+AdminService -- DBManager: uses
+DoctorService -- DBManager: uses
+
+
+@enduml
