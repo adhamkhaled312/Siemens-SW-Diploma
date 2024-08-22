@@ -1,0 +1,7 @@
+Two sum II - Input Array Is Sorted:
+https://leetcode.com/submissions/detail/1363418143/
+
+Minimum Size Subarray Sum:
+https://leetcode.com/submissions/detail/1363375780/
+
+
