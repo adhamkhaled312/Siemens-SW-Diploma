@@ -1,0 +1,8 @@
+Perfect squares:
+https://leetcode.com/submissions/detail/1373631682
+
+Integer break:
+https://leetcode.com/submissions/detail/1373648612
+
+Count Numbers with Unique Digits:
+https://leetcode.com/submissions/detail/1373657069
