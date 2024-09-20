@@ -1,0 +1,11 @@
+ENtiTY ent IS
+END;
+
+architecture arch OF ent is
+SIGNAL s11 : t1;
+signal s12 : t1;
+siGnAL s2 : t2;
+
+beGIn
+s11 <= s12;
+END;

@@ -1,0 +1,9 @@
+ENTITY ent IS
+END;
+
+ARCHITECTURE arch OF ent IS
+    SIGNAL s11 : type1;
+    SIGNAL s12 : type2;
+BEGIN
+s11 <= s12;
+END;

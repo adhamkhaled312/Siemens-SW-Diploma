@@ -1,0 +1,34 @@
+grammar org.xtext.example.hdl.HDL with org.eclipse.xtext.common.Terminals
+
+generate hDL "http://www.xtext.org/example/hdl/HDL"
+
+Model:
+	entityDecl=entity_decl | 
+	archDecl=arch_decl |
+	entityDecl=entity_decl archDecl=arch_decl
+;
+
+entity_decl returns PTEntityDecl:
+	'entity' name=ID 'is' 'end' ';'
+;
+
+arch_decl returns PTArchDecl:
+	'architecture' ID 'of' entityId=[PTEntityDecl] 'is' 
+	signalDecls+=signal_decl* 'begin' signalAssign+=signal_assign* 'end' ';'
+;
+
+signal_decl returns PTSignalDecl:
+	'SIGNAL' name=ID ":" signalType=ID ';'
+;
+
+signal_assign returns PTSignalAssign:
+	lhs=lhs '<=' rhs=rhs ';'
+;
+
+lhs returns PTIdentifier:
+	id=[PTSignalDecl]
+;
+
+rhs returns PTIdentifier:
+	id=[PTSignalDecl]
+;

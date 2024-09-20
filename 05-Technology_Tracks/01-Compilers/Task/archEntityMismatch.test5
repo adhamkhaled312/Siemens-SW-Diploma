@@ -1,0 +1,6 @@
+ENTITY abc IS
+END;
+
+ARCHITECTURE arch OF xyz IS
+BEGIN
+END;
